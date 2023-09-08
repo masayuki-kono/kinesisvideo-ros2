@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 #pragma once
-#include <image_transport/image_transport.h>
+#include <image_transport/image_transport.hpp>
 #include <kinesis_manager/kinesis_stream_manager.h>
 #include "kinesis_video_msgs/msg/kinesis_video_frame.hpp"
 #include "std_msgs/msg/string.hpp"

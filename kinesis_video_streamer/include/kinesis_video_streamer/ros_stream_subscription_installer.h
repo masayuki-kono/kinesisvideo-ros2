@@ -14,7 +14,7 @@
  */
 #pragma once
 #include <aws/core/utils/logging/LogMacros.h>
-#include <image_transport/image_transport.h>
+#include <image_transport/image_transport.hpp>
 #include <kinesis_manager/kinesis_stream_manager.h>
 #include <kinesis_manager/stream_subscription_installer.h>
 #include "kinesis_video_msgs/msg/kinesis_video_frame.hpp"
