@@ -1,4 +1,4 @@
-kinesis_video_streamer:
+kinesis_color_video_streamer:
   ros__parameters:
     aws_client_configuration:
       # Specifies where you want the client to communicate. Examples include us-east-1 or us-west-2.
@@ -20,7 +20,7 @@ kinesis_video_streamer:
       stream_count: 1
       stream0:
         # Kinesis Video Stream name. If a stream by the given name doesn't exist, it will be created.
-        stream_name: "testStream"
+        stream_name: "stream-color"
 
         # Topic name to subscribe and receive the image/video data from.
         subscription_topic: /video/color/encoded
