@@ -2,7 +2,7 @@ kinesis_video_streamer:
   ros__parameters:
     aws_client_configuration:
       # Specifies where you want the client to communicate. Examples include us-east-1 or us-west-2.
-      region: "us-west-2"
+      region: "ap-northeast-1"
 
       # Values that determine the length of time, in milliseconds, to wait before timing out a request. 
       connect_timeout_ms: 9000
@@ -23,7 +23,7 @@ kinesis_video_streamer:
         stream_name: "testStream"
 
         # Topic name to subscribe and receive the image/video data from.
-        subscription_topic: /video/encoded
+        subscription_topic: /video/color/encoded
 
         # Topic type
         # 1: KinesisVideoFrame transport, enabling h264 streaming
