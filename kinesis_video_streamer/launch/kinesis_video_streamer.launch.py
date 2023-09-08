@@ -89,12 +89,16 @@ def generate_launch_description():
       'region': LaunchConfiguration(AWS_REGION)
     },
     'kinesis_video': {
-      'stream0': PythonExpression([
-        "{ 'stream_name': '", LaunchConfiguration(STREAM_NAME), "',"
-        " 'rekognition_data_stream': '", LaunchConfiguration(REKOGNITION_DATA_STREAM), "' }",
-        " if '", LaunchConfiguration(REKOGNITION_DATA_STREAM), "' else ",
-        "{ 'stream_name': '", LaunchConfiguration(STREAM_NAME), "' }"
-      ])
+      # FIXEME: can not use PythonExpression as LaunchConfiguration
+      # 'stream0': PythonExpression([
+      #   "{ 'stream_name': '", LaunchConfiguration(STREAM_NAME), "',"
+      #   " 'rekognition_data_stream': '", LaunchConfiguration(REKOGNITION_DATA_STREAM), "' }",
+      #   " if '", LaunchConfiguration(REKOGNITION_DATA_STREAM), "' else ",
+      #   "{ 'stream_name': '", LaunchConfiguration(STREAM_NAME), "' }"
+      # ])
+      'stream0': {
+        'stream_name': LaunchConfiguration(STREAM_NAME)
+      }
     }
   }]
 
@@ -108,8 +112,8 @@ def generate_launch_description():
 
   streamer_node = launch_ros.actions.Node(
     package="kinesis_video_streamer",
-    node_executable="kinesis_video_streamer",
-    node_name=LaunchConfiguration(NODE_NAME),
+    executable="kinesis_video_streamer",
+    name=LaunchConfiguration(NODE_NAME),
     parameters=node_parameters
   )
 
