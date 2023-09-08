@@ -61,7 +61,7 @@ protected:
     void SetUp() override
     {
         handle = rclcpp::Node::make_shared("test_node");
-        pub_ = handle->create_publisher<std_msgs::msg::String>(kTopicName);
+        pub_ = handle->create_publisher<std_msgs::msg::String>(kTopicName, kDefaultMessageQueueSize);
         auto callback = [this](const std_msgs::msg::String::SharedPtr msg) -> void {
             this->rekognition_results.push_back(msg->data);
         };
