@@ -69,7 +69,7 @@ int main(int argc, char * argv[])
                                          spinner_thread_count_input)) {
             spinner_thread_count = static_cast<uint32_t>(spinner_thread_count_input);
         }
-        rclcpp::executors::MultiThreadedExecutor spinner(rclcpp::executor::ExecutorArgs(), spinner_thread_count);
+        rclcpp::executors::MultiThreadedExecutor spinner(rclcpp::ExecutorOptions(), spinner_thread_count);
         spinner.add_node(streamer);
         spinner.spin();
     } else {
