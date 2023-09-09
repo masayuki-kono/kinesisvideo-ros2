@@ -51,7 +51,7 @@ def generate_launch_description():
   declared_arguments.append(
       DeclareLaunchArgument(
           "node_name",
-          default_value="kinesis_video_streamer",
+          default_value="kinesis_color_video_streamer",
       )
   )
   declared_arguments.append(
