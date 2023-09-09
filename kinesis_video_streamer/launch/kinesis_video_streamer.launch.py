@@ -28,12 +28,18 @@ def launch_setup(context, *args, **kwargs):
   config_filepath = PathJoinSubstitution(
       [FindPackageShare("kinesis_video_streamer"), "config", config_filename]
   )
+  logger_config_path = PathJoinSubstitution(
+      [FindPackageShare("kinesis_video_streamer"), "config", "kvs_log_configuration"]
+  )
 
   streamer_node = Node(
     package="kinesis_video_streamer",
     executable="kinesis_video_streamer",
     name=node_name,
-    parameters=[config_filepath]
+    parameters=[config_filepath,
+                {'kinesis_video': {
+                  'log4cplus_config': logger_config_path
+                }}]
   )
 
   output_log_actions = [LogInfo(msg=config_filepath)]
