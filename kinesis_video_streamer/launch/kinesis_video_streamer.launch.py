@@ -22,43 +22,45 @@ from launch.substitutions import LaunchConfiguration
 
 
 def launch_setup(context, *args, **kwargs):
-  node_name = LaunchConfiguration("node_name")
-  config_filename = LaunchConfiguration("config_filename")
+    node_name = LaunchConfiguration("node_name")
+    config_filename = LaunchConfiguration("config_filename")
 
-  config_filepath = PathJoinSubstitution(
-      [FindPackageShare("kinesis_video_streamer"), "config", config_filename]
-  )
-  logger_config_path = PathJoinSubstitution(
-      [FindPackageShare("kinesis_video_streamer"), "config", "kvs_log_configuration"]
-  )
+    config_filepath = PathJoinSubstitution(
+        [FindPackageShare("kinesis_video_streamer"), "config", config_filename]
+    )
+    logger_config_path = PathJoinSubstitution(
+        [FindPackageShare("kinesis_video_streamer"), "config", "kvs_log_configuration"]
+    )
 
-  streamer_node = Node(
-    package="kinesis_video_streamer",
-    executable="kinesis_video_streamer",
-    name=node_name,
-    parameters=[config_filepath,
-                {'kinesis_video': {
-                  'log4cplus_config': logger_config_path
-                }}]
-  )
+    streamer_node = Node(
+        package="kinesis_video_streamer",
+        executable="kinesis_video_streamer",
+        name=node_name,
+        parameters=[
+            config_filepath,
+            {"kinesis_video": {"log4cplus_config": logger_config_path}},
+        ],
+    )
 
-  output_log_actions = [LogInfo(msg=config_filepath)]
-  return output_log_actions + [streamer_node]
+    output_log_actions = [LogInfo(msg=config_filepath)]
+    return output_log_actions + [streamer_node]
 
 
 def generate_launch_description():
-  declared_arguments = []
-  declared_arguments.append(
-      DeclareLaunchArgument(
-          "node_name",
-          default_value="kinesis_color_video_streamer",
-      )
-  )
-  declared_arguments.append(
-      DeclareLaunchArgument(
-          "config_filename",
-          default_value="color.yaml",
-      )
-  )
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "node_name",
+            default_value="kinesis_color_video_streamer",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "config_filename",
+            default_value="color.yaml",
+        )
+    )
 
-  return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(
+        declared_arguments + [OpaqueFunction(function=launch_setup)]
+    )
