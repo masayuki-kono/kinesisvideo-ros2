@@ -18,6 +18,7 @@ set(KINESIS_VIDE_STREAMER_LIBRARY_TARGET ${PROJECT_NAME}_lib)
 ###########
 ## Build ##
 ###########
+
 add_library(${KINESIS_VIDE_STREAMER_LIBRARY_TARGET}
         src/ros_stream_subscription_installer.cpp
         src/subscriber_callbacks.cpp
@@ -49,6 +50,7 @@ target_link_libraries(${PROJECT_NAME}
 #############
 ## Install ##
 #############
+
 install(TARGETS ${PROJECT_NAME} ${KINESIS_VIDE_STREAMER_LIBRARY_TARGET}
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
@@ -81,6 +83,7 @@ ament_package()
 #############
 ## Tests ##
 #############
+
 if(BUILD_TESTING)
   find_package(ament_cmake_gtest REQUIRED)
   find_package(ament_cmake_gmock REQUIRED)
