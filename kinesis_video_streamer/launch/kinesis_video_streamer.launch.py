@@ -23,27 +23,32 @@ from launch.substitutions import LaunchConfiguration
 
 def launch_setup(context, *args, **kwargs):
     node_name = LaunchConfiguration("node_name")
-    config_filename = LaunchConfiguration("config_filename")
+    config_file_path = LaunchConfiguration("config_file_path")
+    log4cplus_config_file_path = LaunchConfiguration("log4cplus_config_file_path")
 
-    config_filepath = PathJoinSubstitution(
-        [FindPackageShare("kinesis_video_streamer"), "config", config_filename]
-    )
-    logger_config_path = PathJoinSubstitution(
-        [FindPackageShare("kinesis_video_streamer"), "config", "kvs_log_configuration"]
-    )
+    if context.perform_substitution(config_file_path) == "":
+        config_file_path = PathJoinSubstitution(
+            [FindPackageShare("kinesis_video_streamer"), "config", "sample.yaml"]
+        )
+    if context.perform_substitution(log4cplus_config_file_path) == "":
+        log4cplus_config_file_path = PathJoinSubstitution(
+            [FindPackageShare("kinesis_video_streamer"), "config", "log4cplus.ini"]
+        )
 
-    streamer_node = Node(
+    node = Node(
         package="kinesis_video_streamer",
         executable="kinesis_video_streamer",
         name=node_name,
         parameters=[
-            config_filepath,
-            {"kinesis_video": {"log4cplus_config": logger_config_path}},
+            config_file_path,
+            {"kinesis_video": {"log4cplus_config": log4cplus_config_file_path}},
         ],
     )
 
-    output_log_actions = [LogInfo(msg=config_filepath)]
-    return output_log_actions + [streamer_node]
+    output_log_actions = []
+    output_log_actions.append(LogInfo(msg=[config_file_path]))
+    output_log_actions.append(LogInfo(msg=[log4cplus_config_file_path]))
+    return output_log_actions + [node]
 
 
 def generate_launch_description():
@@ -56,11 +61,17 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "config_filename",
-            default_value="color.yaml",
+            "config_file_path",
+            default_value="",
         )
     )
-
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "log4cplus_config_file_path",
+            default_value="",
+        )
+    )
+    
     return LaunchDescription(
         declared_arguments + [OpaqueFunction(function=launch_setup)]
     )
